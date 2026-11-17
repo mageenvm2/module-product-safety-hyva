@@ -18,10 +18,13 @@ class NoBusinessLogicTest extends TestCase
     {
         $root = dirname(__DIR__, 2);
         $php = [];
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS));
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS)
+        );
         foreach ($iterator as $file) {
             $path = substr((string)$file, strlen($root) + 1);
-            if (str_ends_with($path, '.php') && !str_starts_with($path, 'Test/') && !str_starts_with($path, 'vendor/')) {
+            $isTestOrVendor = str_starts_with($path, 'Test/') || str_starts_with($path, 'vendor/');
+            if (str_ends_with($path, '.php') && !$isTestOrVendor) {
                 $php[] = $path;
             }
         }
