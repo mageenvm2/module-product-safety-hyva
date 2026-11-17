@@ -25,6 +25,9 @@
 .mageenv-ps--hyva.mageenv-ps--tab {
     margin: 0;
 }
+.mageenv-ps--hyva.mageenv-ps--column {
+    margin: 24px 0 0;
+}
 .mageenv-ps--hyva .mageenv-ps__sr {
     position: absolute;
     width: 1px;
@@ -161,7 +164,7 @@
         grid-template-columns: 180px minmax(0, 1fr);
         gap: 24px;
     }
-    .product-info-main .mageenv-ps--hyva .mageenv-ps__row,
+    .mageenv-ps--hyva.mageenv-ps--column .mageenv-ps__row,
     .mageenv-ps--hyva.mageenv-ps--tab .mageenv-ps__row {
         grid-template-columns: minmax(0, 1fr);
         gap: 4px;

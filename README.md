@@ -13,8 +13,9 @@ General Product Safety Regulation (EU) 2023/988 asks online shops to display.
 On Hyvä themes it renders the core module's **Product Safety** block on the product page:
 manufacturer, EU responsible person, importer, product identification, warnings with
 icons, safety information and downloadable documents. All placements of the core module
-work: product page section (default), product info column, full width below the product
-sections, and the "Product Safety Information" widget.
+work: product page section (default), product info column (Hyvä's slot directly below
+Add to Cart), full width below the product sections, and the "Product Safety Information"
+widget.
 
 This module contains **no business logic**. It only provides a template and a stylesheet.
 Data, settings, translations and caching all come from the core module.

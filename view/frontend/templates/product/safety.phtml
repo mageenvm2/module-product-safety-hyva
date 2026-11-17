@@ -24,8 +24,10 @@ $warnings = (array)($data['warnings'] ?? []);
 $safetyText = trim((string)($data['safety_text'] ?? ''));
 $documents = (array)($data['documents'] ?? []);
 $identifiers = (array)($data['identifiers'] ?? []);
+$modifier = $block->isTab() ? ' mageenv-ps--tab' : '';
+$modifier .= $block->getData('placement') === 'info_main' ? ' mageenv-ps--column' : '';
 ?>
-<section class="mageenv-ps mageenv-ps--hyva<?= $block->isTab() ? ' mageenv-ps--tab' : '' ?>"
+<section class="mageenv-ps mageenv-ps--hyva<?= /* @noEscape */ $modifier ?>"
          aria-labelledby="<?= $escaper->escapeHtmlAttr($headingId) ?>">
 <?php if ($block->isCollapsible()): ?>
     <details class="mageenv-ps__details"<?= $block->isCollapsed() ? '' : ' open' ?>>
@@ -59,20 +61,16 @@ $identifiers = (array)($data['identifiers'] ?? []);
                     <ul class="mageenv-ps__contact">
                         <?php if (!empty($party['email'])): ?>
                             <li>
-                                <a href="mailto:<?= $escaper->escapeUrl($party['email']) ?>">
-                                    <?= $escaper->escapeHtml($party['email']) ?>
-                                </a>
+                                <a href="mailto:<?= $escaper->escapeUrl($party['email']) ?>"
+                                ><?= $escaper->escapeHtml($party['email']) ?></a>
                             </li>
                         <?php endif; ?>
                         <?php if (!empty($party['contact_url'])): ?>
                             <li>
                                 <a href="<?= $escaper->escapeUrl($party['contact_url']) ?>"
-                                   target="_blank" rel="noopener noreferrer">
-                                    <?= $escaper->escapeHtml(__('Contact page')) ?>
-                                    <span class="mageenv-ps__sr">
-                                        (<?= $escaper->escapeHtml(__('opens in a new window')) ?>)
-                                    </span>
-                                </a>
+                                   target="_blank" rel="noopener noreferrer"
+                                ><?= $escaper->escapeHtml(__('Contact page')) ?><span class="mageenv-ps__sr"
+                                    > (<?= $escaper->escapeHtml(__('opens in a new window')) ?>)</span></a>
                             </li>
                         <?php endif; ?>
                         <?php if (!empty($party['phone'])): ?>
@@ -136,9 +134,8 @@ $identifiers = (array)($data['identifiers'] ?? []);
                         <?php foreach ($documents as $document): ?>
                             <li>
                                 <a href="<?= $escaper->escapeUrl($block->getDocumentUrl($document)) ?>"
-                                   target="_blank" rel="noopener">
-                                    <?= $escaper->escapeHtml($document['title']) ?>
-                                </a>
+                                   target="_blank" rel="noopener"
+                                ><?= $escaper->escapeHtml($document['title']) ?></a>
                                 <span class="mageenv-ps__meta">
                                     (<?= $escaper->escapeHtml($block->getDocumentMeta($document)) ?>)
                                 </span>
