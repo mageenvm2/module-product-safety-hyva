@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MageEnv. All rights reserved.
+ * Licensed under the Open Software License 3.0 (OSL-3.0). See LICENSE.txt.
+ *
+ * "hyva_" handles are only activated by Hyva_Theme on Hyvä themes, so this small,
+ * fully scoped stylesheet never loads on Luma. It is loaded site-wide (not only on
+ * product pages) because the "Product Safety Information" widget can be placed on
+ * any page.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="MageEnv_ProductSafetyHyva::css/mageenv-product-safety.css"/>
+    </head>
+</page>

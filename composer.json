@@ -1,0 +1,35 @@
+{
+    "name": "mageenv/module-product-safety-hyva",
+    "description": "Hyva storefront templates for MageEnv GPSR Product Safety: the product page product safety block (manufacturer, EU responsible person, warnings, documents) for Hyva themes. No business logic.",
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0"
+    ],
+    "homepage": "https://mageenv.com/extensions/",
+    "support": {
+        "issues": "https://github.com/mageenvm2/module-product-safety-hyva/issues",
+        "source": "https://github.com/mageenvm2/module-product-safety-hyva",
+        "email": "info@mageenv.com"
+    },
+    "require": {
+        "php": "~8.2.0||~8.3.0||~8.4.0||~8.5.0",
+        "magento/framework": ">=103.0.7 <104",
+        "mageenv/module-product-safety": "^1.0.0",
+        "hyva-themes/magento2-theme-module": ">=1.1.0 <2"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MageEnv\\ProductSafetyHyva\\": ""
+        }
+    },
+    "archive": {
+        "exclude": [
+            "/Test",
+            "/phpcs.xml.dist",
+            "/.gitignore"
+        ]
+    }
+}

@@ -1,0 +1,155 @@
+<?php
+/**
+ * Copyright © MageEnv. All rights reserved.
+ * Licensed under the Open Software License 3.0 (OSL-3.0). See LICENSE.txt.
+ *
+ * Product safety information for Hyvä themes. Same data and structure as the core Luma
+ * template; styling comes from the scoped stylesheet css/mageenv-product-safety.css.
+ *
+ * @var \MageEnv\ProductSafety\Block\Product\Safety $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$data = $block->getSafetyData();
+if ($data === null) {
+    return;
+}
+$headingId = 'mageenv-ps-heading-' . $block->getNameInLayout();
+$headingId = preg_replace('/[^a-zA-Z0-9_-]/', '-', (string)$headingId);
+$parties = [
+    'manufacturer' => __('Manufacturer'),
+    'responsible_person' => __('EU responsible person'),
+    'importer' => __('Importer'),
+];
+$warnings = (array)($data['warnings'] ?? []);
+$safetyText = trim((string)($data['safety_text'] ?? ''));
+$documents = (array)($data['documents'] ?? []);
+$identifiers = (array)($data['identifiers'] ?? []);
+?>
+<section class="mageenv-ps mageenv-ps--hyva<?= $block->isTab() ? ' mageenv-ps--tab' : '' ?>"
+         aria-labelledby="<?= $escaper->escapeHtmlAttr($headingId) ?>">
+<?php if ($block->isCollapsible()): ?>
+    <details class="mageenv-ps__details"<?= $block->isCollapsed() ? '' : ' open' ?>>
+        <summary class="mageenv-ps__summary">
+            <h2 class="mageenv-ps__title" id="<?= $escaper->escapeHtmlAttr($headingId) ?>">
+                <?= $escaper->escapeHtml($block->getHeading()) ?>
+            </h2>
+        </summary>
+<?php else: ?>
+    <h2 class="mageenv-ps__sr" id="<?= $escaper->escapeHtmlAttr($headingId) ?>">
+        <?= $escaper->escapeHtml($block->getHeading()) ?>
+    </h2>
+<?php endif; ?>
+        <dl class="mageenv-ps__list">
+<?php foreach ($parties as $key => $label): ?>
+    <?php $party = $data[$key] ?? null; ?>
+    <?php if (!empty($party)): ?>
+            <div class="mageenv-ps__row">
+                <dt class="mageenv-ps__term"><?= $escaper->escapeHtml($label) ?></dt>
+                <dd class="mageenv-ps__desc">
+                    <span class="mageenv-ps__name"><?= $escaper->escapeHtml($party['name']) ?></span>
+                    <?php if (!empty($party['trade_name']) && $party['trade_name'] !== $party['name']): ?>
+                        <span class="mageenv-ps__brand">(<?= $escaper->escapeHtml($party['trade_name']) ?>)</span>
+                    <?php endif; ?>
+                    <address class="mageenv-ps__address">
+                        <?php foreach ($block->getAddressLines($party) as $line): ?>
+                            <span><?= $escaper->escapeHtml($line) ?></span>
+                        <?php endforeach; ?>
+                    </address>
+                    <?php if (!empty($party['email']) || !empty($party['contact_url']) || !empty($party['phone'])): ?>
+                    <ul class="mageenv-ps__contact">
+                        <?php if (!empty($party['email'])): ?>
+                            <li>
+                                <a href="mailto:<?= $escaper->escapeUrl($party['email']) ?>">
+                                    <?= $escaper->escapeHtml($party['email']) ?>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if (!empty($party['contact_url'])): ?>
+                            <li>
+                                <a href="<?= $escaper->escapeUrl($party['contact_url']) ?>"
+                                   target="_blank" rel="noopener noreferrer">
+                                    <?= $escaper->escapeHtml(__('Contact page')) ?>
+                                    <span class="mageenv-ps__sr">
+                                        (<?= $escaper->escapeHtml(__('opens in a new window')) ?>)
+                                    </span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if (!empty($party['phone'])): ?>
+                            <li><?= $escaper->escapeHtml($party['phone']) ?></li>
+                        <?php endif; ?>
+                    </ul>
+                    <?php endif; ?>
+                </dd>
+            </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+<?php if ($identifiers): ?>
+            <div class="mageenv-ps__row">
+                <dt class="mageenv-ps__term"><?= $escaper->escapeHtml(__('Product identification')) ?></dt>
+                <dd class="mageenv-ps__desc">
+                    <ul class="mageenv-ps__ids">
+                        <?php foreach ($identifiers as $identifier): ?>
+                            <li>
+                                <span class="mageenv-ps__id-label">
+                                    <?= $escaper->escapeHtml($identifier['label']) ?>:
+                                </span>
+                                <?= $escaper->escapeHtml($identifier['value']) ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </dd>
+            </div>
+<?php endif; ?>
+<?php if ($warnings || $safetyText !== ''): ?>
+            <div class="mageenv-ps__row">
+                <dt class="mageenv-ps__term"><?= $escaper->escapeHtml(__('Warnings and safety information')) ?></dt>
+                <dd class="mageenv-ps__desc">
+                    <?php if ($warnings): ?>
+                    <ul class="mageenv-ps__warnings">
+                        <?php foreach ($warnings as $warning): ?>
+                            <?php $iconUrl = $block->showIcons()
+                                ? $block->getIconUrl((string)$warning['icon']) : null; ?>
+                            <li class="mageenv-ps__warning">
+                                <?php if ($iconUrl): ?>
+                                    <img class="mageenv-ps__icon" src="<?= $escaper->escapeUrl($iconUrl) ?>"
+                                         alt="" width="28" height="28" loading="lazy"/>
+                                <?php endif; ?>
+                                <span><?= $escaper->escapeHtml($warning['text']) ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php endif; ?>
+                    <?php if ($safetyText !== ''): ?>
+                        <div class="mageenv-ps__text">
+                            <?= /* @noEscape */ nl2br($escaper->escapeHtml($safetyText)) ?>
+                        </div>
+                    <?php endif; ?>
+                </dd>
+            </div>
+<?php endif; ?>
+<?php if ($documents): ?>
+            <div class="mageenv-ps__row">
+                <dt class="mageenv-ps__term"><?= $escaper->escapeHtml(__('Documents')) ?></dt>
+                <dd class="mageenv-ps__desc">
+                    <ul class="mageenv-ps__docs">
+                        <?php foreach ($documents as $document): ?>
+                            <li>
+                                <a href="<?= $escaper->escapeUrl($block->getDocumentUrl($document)) ?>"
+                                   target="_blank" rel="noopener">
+                                    <?= $escaper->escapeHtml($document['title']) ?>
+                                </a>
+                                <span class="mageenv-ps__meta">
+                                    (<?= $escaper->escapeHtml($block->getDocumentMeta($document)) ?>)
+                                </span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </dd>
+            </div>
+<?php endif; ?>
+        </dl>
+<?php if ($block->isCollapsible()): ?>
+    </details>
+<?php endif; ?>
+</section>
